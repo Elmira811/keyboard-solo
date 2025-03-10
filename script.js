@@ -67,14 +67,20 @@ document.addEventListener("keydown", function(event) {
     wordMistakes.textContent = currentWordMistakes;
   }
 
-  if (currentIndex === randomWord.length && currentWordMistakes === 0) {
-    correctWords++;
-    correctCount.textContent = correctWords;
-  } else if (currentIndex === randomWord.length && currentWordMistakes > 0) {
-    wrongWords++;
-    wrongCount.textContent = wrongWords;
-  }
+  if (currentIndex === randomWord.length) {
+    if (currentWordMistakes === 0) {
+      correctWords++;
+      correctCount.textContent = correctWords;
+    } else {
+      wrongWords++;
+      wrongCount.textContent = wrongWords;
+    }
 
+    setTimeout(nextWord, 0);
+  } 
+})
+
+function checkEndGame() {
   if (correctWords === 5 || wrongWords === 5) {
     clearInterval(timerID);
     const message = correctWords === 5
@@ -82,11 +88,13 @@ document.addEventListener("keydown", function(event) {
     : "Увы! Вы проиграли. Попрубуйте ещё раз.";
     alert(message);
   }
+ }
 
-  if (currentIndex === randomWord.length) {
-    getRandomWord();
-    currentIndex = 0;
-    currentWordMistakes = 0;
-    wordMistakes.textContent = "0";
-  }
-})
+function nextWord() {
+  checkEndGame();
+
+  getRandomWord();
+  currentIndex = 0;
+  currentWordMistakes = 0;
+  wordMistakes.textContent = "0";
+ }
